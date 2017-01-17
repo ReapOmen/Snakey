@@ -38,7 +38,11 @@ bool SnakeWorld::init()
 
     addKeyListener();
 
-    schedule([this](float delta){_snakeSprite->update();}, 0.5, "rm");
+    schedule([this](float delta) {
+
+                 checkCollision();
+                 _snakeSprite->update();
+              }, 0.5, "update_snake");
 
     return true;
 }
@@ -68,9 +72,12 @@ void SnakeWorld::checkCollision() {
     Vec2 snakePos = _snakeSprite->getChildren().at(0)->getPosition();
     Size sceneSize = Director::getInstance()->getVisibleSize();
 
-    if (snakePos.x > 0 && snakePos.x < sceneSize.width) {
+    if (!(snakePos.x > 0 && snakePos.y > 0 &&
+            snakePos.x + _snakeSprite->getSegmentWidth() < sceneSize.width &&
+                snakePos.y + _snakeSprite->getSegmentHeight() < sceneSize.height) &&
+                    _snakeSprite->collidesWithItself()) {
 
-        _snakeSprite->update();
+        unschedule("update_snake");
     }
 }
 
