@@ -38,9 +38,28 @@ public:
     virtual const vector<cocos2d::Vec2>& getSnake() const;
 
     /** Changes the direction of the snake.
-     * When calling this method make sure you use the static constants provided.
+     *  When calling this method make sure you use the static constants provided.
      */
     virtual void changeDirection(int direction);
+
+    /**
+     * Checks whether the next move of the snake will make the snake collide with
+     * itself.
+     * @return true if the snake will collide with itself and false otherwise.
+     */
+    virtual bool collidesWithItself() const;
+
+    /**
+     * Gets the width of the snake's segments.
+     * @return the width of the snake's segments.
+     */
+    float getSegmentWidth() const;
+
+    /**
+     * Gets the height of the snake's segments.
+     * @return the height of the snake's segments.
+     */
+    float getSegmentHeight() const;
 
 private:
 
@@ -50,8 +69,7 @@ private:
 
     cocos2d::Vec2 _speed;
 
-    // if the snake is moving on the X axis
-    bool _isMovingOnX;
+    bool _isMovingOnX, _shouldChangeDirection;
 };
 
 #endif // __SNAKE_H__

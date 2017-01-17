@@ -39,3 +39,18 @@ void SnakeSprite::changeDirection(int direction) {
 
     _snake->changeDirection(direction);
 }
+
+bool SnakeSprite::collidesWithItself() const {
+
+    return _snake->collidesWithItself();
+}
+
+float SnakeSprite::getSegmentWidth() const {
+
+    return _snake->getSegmentWidth();
+}
+
+float SnakeSprite::getSegmentHeight() const {
+
+    return _snake->getSegmentHeight();
+}
