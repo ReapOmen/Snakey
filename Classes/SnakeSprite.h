@@ -8,19 +8,11 @@ class SnakeSprite : public cocos2d::Sprite {
 
 public:
 
-    SnakeSprite(const cocos2d::Size& sceneSize, float segmentWidth, float segmentHeight);
+    SnakeSprite(Snake* snake);
 
     virtual ~SnakeSprite();
 
     virtual void update();
-
-    void changeDirection(int direction);
-
-    bool collidesWithItself() const;
-
-    float getSegmentWidth() const;
-
-    float getSegmentHeight() const;
 
     static SnakeSprite* create(const cocos2d::Size& sceneSize, float segmentWidth, float segmentHeight);
 
