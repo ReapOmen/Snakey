@@ -22,8 +22,6 @@ Snake::Snake(const Size& sceneSize, float segmentWidth, float segmentHeight)
     _snakeStructure.push_back(Vec2(segmentX - _segmentWidth, segmentY));
     _snakeStructure.push_back(Vec2(segmentX, segmentY));
     _snakeStructure.push_back(Vec2(segmentX + _segmentWidth, segmentY));
-
-    CCLog("%f, %f, %f", _snakeStructure[0].x, _snakeStructure[1].x, _snakeStructure[2].x);
 }
 
 Snake::~Snake() {

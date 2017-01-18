@@ -126,6 +126,7 @@ set(GAME_SRC
   Classes/AppDelegate.cpp
   Classes/SnakeWorldScene.cpp
   Classes/logic/Snake.cpp
+  Classes/logic/SnakeWorld.cpp
   Classes/SnakeSprite.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
@@ -134,6 +135,7 @@ set(GAME_HEADERS
   Classes/AppDelegate.h
   Classes/SnakeWorldScene.h
   Classes/logic/Snake.h
+  Classes/logic/SnakeWorld.h
   Classes/SnakeSprite.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
