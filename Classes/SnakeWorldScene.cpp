@@ -1,20 +1,23 @@
 #include "SnakeWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include <vector>
+
 #include "logic/Snake.h"
+#include "logic/SnakeWorld.h"
+
 #include "SnakeSprite.h"
 
 using std::vector;
 
 USING_NS_CC;
 
-Scene* SnakeWorld::createScene()
+Scene* SnakeWorldScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
 
     // 'layer' is an autorelease object
-    auto layer = SnakeWorld::create();
+    auto layer = SnakeWorldScene::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -24,7 +27,7 @@ Scene* SnakeWorld::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool SnakeWorld::init()
+bool SnakeWorldScene::init()
 {
     if ( !Layer::init() ) {
         return false;
@@ -32,27 +35,38 @@ bool SnakeWorld::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
 
-    _snakeSprite = new SnakeSprite(visibleSize, 20, 20);
+    _snakeWorld = new SnakeWorld(visibleSize);
+
+    _snakeSprite = new SnakeSprite(_snakeWorld->getSnake());
 
     addChild(_snakeSprite);
+
+    _appleSprite = Sprite::create("apple.png");
+    _appleSprite->setAnchorPoint(Vec2::ZERO);
+    _appleSprite->setPosition(_snakeWorld->getApple());
+
+    addChild(_appleSprite);
 
     addKeyListener();
 
     schedule([this](float delta) {
 
-                 checkCollision();
-                 _snakeSprite->update();
+                 if (!_snakeWorld->isGameOver()) {
+
+                     _snakeWorld->update();
+                     _snakeSprite->update();
+                     _appleSprite->setPosition(_snakeWorld->getApple());
+
+                 } else {
+
+                     unschedule("update_snake");
+                 }
               }, 0.5, "update_snake");
 
     return true;
 }
 
-void SnakeWorld::update(float delta) {
-
-    checkCollision();
-}
-
-void SnakeWorld::menuCloseCallback(Ref* pSender)
+void SnakeWorldScene::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
@@ -67,38 +81,26 @@ void SnakeWorld::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 }
 
-void SnakeWorld::checkCollision() {
+void SnakeWorldScene::addKeyListener() {
 
-    Vec2 snakePos = _snakeSprite->getChildren().at(0)->getPosition();
-    Size sceneSize = Director::getInstance()->getVisibleSize();
-
-    if (!(snakePos.x > 0 && snakePos.y > 0 &&
-            snakePos.x + _snakeSprite->getSegmentWidth() < sceneSize.width &&
-                snakePos.y + _snakeSprite->getSegmentHeight() < sceneSize.height) &&
-                    _snakeSprite->collidesWithItself()) {
-
-        unschedule("update_snake");
-    }
-}
-
-void SnakeWorld::addKeyListener() {
+    Snake* snake = _snakeWorld->getSnake();
 
     EventListenerKeyboard *eventListener = EventListenerKeyboard::create();
 
-    eventListener->onKeyReleased = [this](EventKeyboard::KeyCode keyCode, Event* event) {
+    eventListener->onKeyReleased = [snake](EventKeyboard::KeyCode keyCode, Event* event) {
 
         if(keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
 
-            _snakeSprite->changeDirection(Snake::UP);
+            snake->changeDirection(Snake::UP);
         } else if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
 
-            _snakeSprite->changeDirection(Snake::DOWN);
+            snake->changeDirection(Snake::DOWN);
         } else if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
 
-            _snakeSprite->changeDirection(Snake::LEFT);
+            snake->changeDirection(Snake::LEFT);
         } else if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
 
-            _snakeSprite->changeDirection(Snake::RIGHT);
+            snake->changeDirection(Snake::RIGHT);
         }
     };
 

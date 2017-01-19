@@ -19,11 +19,10 @@ Snake::Snake(const Size& sceneSize, float segmentWidth, float segmentHeight)
     float segmentX = midX - (_segmentWidth / 2.0f);
 
     // adding 3 segments to the snake data structure
-    _snakeStructure.push_back(Vec2(segmentX - _segmentWidth, segmentY));
-    _snakeStructure.push_back(Vec2(segmentX, segmentY));
     _snakeStructure.push_back(Vec2(segmentX + _segmentWidth, segmentY));
+    _snakeStructure.push_back(Vec2(segmentX, segmentY));
+    _snakeStructure.push_back(Vec2(segmentX - _segmentWidth, segmentY));
 
-    CCLog("%f, %f, %f", _snakeStructure[0].x, _snakeStructure[1].x, _snakeStructure[2].x);
 }
 
 Snake::~Snake() {
@@ -33,11 +32,12 @@ Snake::~Snake() {
 void Snake::update() {
 
     _shouldChangeDirection = true;
+    size_t len = _snakeStructure.size();
 
-    for (int i = _snakeStructure.size() - 1; i > 0; --i) {
-        _snakeStructure[i].set(_snakeStructure[i-1].x, _snakeStructure[i-1].y);
+    for (size_t i = 0; i < len - 1; ++i) {
+        _snakeStructure[i].set(_snakeStructure[i + 1].x, _snakeStructure[i + 1].y);
     }
-    _snakeStructure[0] += _speed;
+    _snakeStructure[len - 1] += _speed;
 }
 
 const vector<Vec2>& Snake::getSnake() const {
@@ -81,7 +81,7 @@ void Snake::changeDirection(int direction) {
 
 bool Snake::collidesWithItself() const {
 
-    Vec2 newHead = Vec2(_snakeStructure[0]);
+    Vec2 newHead = Vec2(_snakeStructure[_snakeStructure.size() - 1]);
     newHead += _speed;
 
     for(const Vec2& segment : _snakeStructure) {
@@ -103,4 +103,21 @@ float Snake::getSegmentWidth() const {
 float Snake::getSegmentHeight() const {
 
     return _segmentHeight;
+}
+
+Vec2 Snake::getSpeed() const {
+
+    return _speed;
+}
+
+void Snake::grow(const Vec2& pos) {
+
+    _snakeStructure.push_back(pos);
+}
+
+bool Snake::canEat(const Vec2& pos) {
+
+    Vec2 newHead = _snakeStructure[_snakeStructure.size() - 1] + _speed;
+
+    return newHead == pos;
 }

@@ -3,25 +3,27 @@
 
 #include "cocos2d.h"
 #include "SnakeSprite.h"
+#include "logic/SnakeWorld.h"
 
-class SnakeWorld : public cocos2d::Layer
+class SnakeWorldScene : public cocos2d::Layer
 {
 public:
+
     static cocos2d::Scene* createScene();
 
     virtual bool init();
 
     void menuCloseCallback(cocos2d::Ref* pSender);
 
-    virtual void update(float delta) override;
-
-    CREATE_FUNC(SnakeWorld);
+    CREATE_FUNC(SnakeWorldScene);
 
 private:
 
     SnakeSprite* _snakeSprite;
 
-    void checkCollision();
+    cocos2d::Sprite* _appleSprite;
+
+    SnakeWorld* _snakeWorld;
 
     void addKeyListener();
 };
