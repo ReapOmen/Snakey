@@ -61,6 +61,30 @@ public:
      */
     float getSegmentHeight() const;
 
+    /**
+     * Gets the speed of the snake.
+     * @return the speed of the snake.
+     */
+    cocos2d::Vec2 getSpeed() const;
+
+    /**
+     * Adds a new segment to the snake and make it grow.
+     *
+     * @param pos the position of the apple that is eaten and which
+     *            makes the snake grow
+     */
+    void grow(const cocos2d::Vec2& pos);
+
+    /**
+     * Checks whether the snake will reach the given position
+     * next time it moves.
+     *
+     * @param applePos the position of the apple
+     *
+     * @return the height of the snake's segments.
+     */
+    bool canEat(const cocos2d::Vec2& applePos);
+
 private:
 
     vector<cocos2d::Vec2> _snakeStructure;
