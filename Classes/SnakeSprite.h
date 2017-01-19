@@ -14,7 +14,7 @@ public:
 
     virtual void update();
 
-    static SnakeSprite* create(const cocos2d::Size& sceneSize, float segmentWidth, float segmentHeight);
+    static SnakeSprite* create(Snake* snake);
 
 private:
 
