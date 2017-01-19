@@ -41,6 +41,12 @@ bool SnakeWorldScene::init()
 
     addChild(_snakeSprite);
 
+    _appleSprite = Sprite::create("apple.png");
+    _appleSprite->setAnchorPoint(Vec2::ZERO);
+    _appleSprite->setPosition(_snakeWorld->getApple());
+
+    addChild(_appleSprite);
+
     addKeyListener();
 
     schedule([this](float delta) {
@@ -49,6 +55,8 @@ bool SnakeWorldScene::init()
 
                      _snakeWorld->update();
                      _snakeSprite->update();
+                     _appleSprite->setPosition(_snakeWorld->getApple());
+
                  } else {
 
                      unschedule("update_snake");

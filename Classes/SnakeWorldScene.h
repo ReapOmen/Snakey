@@ -8,6 +8,7 @@
 class SnakeWorldScene : public cocos2d::Layer
 {
 public:
+
     static cocos2d::Scene* createScene();
 
     virtual bool init();
@@ -19,6 +20,8 @@ public:
 private:
 
     SnakeSprite* _snakeSprite;
+
+    cocos2d::Sprite* _appleSprite;
 
     SnakeWorld* _snakeWorld;
 
