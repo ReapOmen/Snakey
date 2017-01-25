@@ -4,7 +4,8 @@ USING_NS_CC;
 
 Snake::Snake(const Size& sceneSize, float segmentWidth, float segmentHeight)
 : _snakeStructure(),
-  _segmentWidth(segmentWidth), _segmentHeight(segmentHeight),
+  _segmentWidth(segmentWidth),
+  _segmentHeight(segmentHeight),
   _speed(-_segmentWidth, 0.0f),
   _isMovingOnX(true),
   _shouldChangeDirection(true) {
@@ -25,8 +26,26 @@ Snake::Snake(const Size& sceneSize, float segmentWidth, float segmentHeight)
 
 }
 
-Snake::~Snake() {
+Snake::Snake(const Snake& snake)
+: _snakeStructure(snake._snakeStructure),
+  _segmentWidth(snake._segmentWidth),
+  _segmentHeight(snake._segmentHeight),
+  _speed(snake._speed),
+  _isMovingOnX(snake._isMovingOnX),
+  _shouldChangeDirection(snake._shouldChangeDirection) {
 
+}
+
+Snake& Snake::operator=(const Snake& snake) {
+
+    _snakeStructure = snake._snakeStructure;
+    _segmentWidth =  snake._segmentWidth;
+    _segmentHeight = snake._segmentHeight;
+    _speed = snake._speed;
+    _isMovingOnX = snake._isMovingOnX;
+    _shouldChangeDirection = snake._shouldChangeDirection;
+
+    return *this;
 }
 
 void Snake::update() {

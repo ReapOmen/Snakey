@@ -24,7 +24,14 @@ public:
      */
     Snake(const cocos2d::Size& sceneSize, float segmentWidth, float segmentHeight);
 
-    virtual ~Snake();
+    /**
+     * Copy constructor of Snake.
+     * @param snake the object to copy
+     */
+    Snake(const Snake& snake);
+
+    Snake& operator=(const Snake& snake);
+
 
     /**
      * Updates the state of the snake by moving everything by an offset.
