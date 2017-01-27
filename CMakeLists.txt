@@ -114,7 +114,7 @@ include_directories(
   ${COCOS2D_ROOT}/cocos/platform
   ${COCOS2D_ROOT}/cocos/audio/include/
   Classes
-)
+  )
 if ( WIN32 )
   include_directories(
   ${COCOS2D_ROOT}/external/glfw3/include/win32
@@ -128,6 +128,7 @@ set(GAME_SRC
   Classes/logic/Snake.cpp
   Classes/logic/SnakeWorld.cpp
   Classes/SnakeSprite.cpp
+  Classes/MainMenuScene.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -137,6 +138,7 @@ set(GAME_HEADERS
   Classes/logic/Snake.h
   Classes/logic/SnakeWorld.h
   Classes/SnakeSprite.h
+  Classes/MainMenuScene.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 
