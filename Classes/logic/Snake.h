@@ -28,10 +28,15 @@ public:
      * Copy constructor of Snake.
      * @param snake the object to copy
      */
-    Snake(const Snake& snake);
+    Snake(const Snake& other);
 
-    Snake& operator=(const Snake& snake);
+    Snake(Snake&& other);
 
+    Snake& operator=(const Snake& other);
+
+    Snake& operator=(Snake&& other);
+
+    virtual ~Snake();
 
     /**
      * Updates the state of the snake by moving everything by an offset.

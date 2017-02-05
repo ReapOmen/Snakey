@@ -26,26 +26,58 @@ Snake::Snake(const Size& sceneSize, float segmentWidth, float segmentHeight)
 
 }
 
-Snake::Snake(const Snake& snake)
-: _snakeStructure(snake._snakeStructure),
-  _segmentWidth(snake._segmentWidth),
-  _segmentHeight(snake._segmentHeight),
-  _speed(snake._speed),
-  _isMovingOnX(snake._isMovingOnX),
-  _shouldChangeDirection(snake._shouldChangeDirection) {
+Snake::Snake(const Snake& other)
+: _snakeStructure(other._snakeStructure),
+  _segmentWidth(other._segmentWidth),
+  _segmentHeight(other._segmentHeight),
+  _speed(other._speed),
+  _isMovingOnX(other._isMovingOnX),
+  _shouldChangeDirection(other._shouldChangeDirection) {
 
 }
 
-Snake& Snake::operator=(const Snake& snake) {
+Snake::Snake(Snake&& other)
+: _snakeStructure(std::move(other._snakeStructure)),
+  _segmentWidth(std::move(other._segmentWidth)),
+  _segmentHeight(std::move(other._segmentHeight)),
+  _speed(other._speed),
+  _isMovingOnX(std::move(other._isMovingOnX)),
+  _shouldChangeDirection(std::move(other._shouldChangeDirection)) {
 
-    _snakeStructure = snake._snakeStructure;
-    _segmentWidth =  snake._segmentWidth;
-    _segmentHeight = snake._segmentHeight;
-    _speed = snake._speed;
-    _isMovingOnX = snake._isMovingOnX;
-    _shouldChangeDirection = snake._shouldChangeDirection;
+}
+
+Snake& Snake::operator=(const Snake& other) {
+
+    if (this != &other) {
+
+        _snakeStructure = other._snakeStructure;
+        _segmentWidth =  other._segmentWidth;
+        _segmentHeight = other._segmentHeight;
+        _speed = other._speed;
+        _isMovingOnX = other._isMovingOnX;
+        _shouldChangeDirection = other._shouldChangeDirection;
+    }
 
     return *this;
+}
+
+Snake& Snake::operator=(Snake&& other) {
+
+    if (this != &other) {
+
+        _snakeStructure = std::move(other._snakeStructure);
+        _segmentWidth = std::move(other._segmentWidth);
+        _segmentHeight = std::move(other._segmentHeight);
+        _speed = other._speed;
+        _isMovingOnX = std::move(other._isMovingOnX);
+        _shouldChangeDirection = std::move(other._shouldChangeDirection);
+    }
+
+    return *this;
+}
+
+Snake::~Snake() {
+
 }
 
 void Snake::update() {
@@ -107,11 +139,11 @@ bool Snake::collidesWithItself() const {
 
         if(newHead == segment) {
 
-            return false;
+            return true;
         }
     }
 
-    return true;
+    return false;
 }
 
 float Snake::getSegmentWidth() const {
