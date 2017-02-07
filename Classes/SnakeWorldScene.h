@@ -13,6 +13,8 @@ public:
 
     virtual bool init();
 
+    virtual ~SnakeWorldScene();
+
     void menuCloseCallback(cocos2d::Ref* pSender);
 
     CREATE_FUNC(SnakeWorldScene);
@@ -26,6 +28,10 @@ private:
     SnakeWorld* _snakeWorld;
 
     void addKeyListener();
+
+    void handlePauseStart();
+
+    void handlePauseEnd();
 };
 
 #endif // __HELLOWORLD_SCENE_H__
