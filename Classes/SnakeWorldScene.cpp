@@ -6,6 +6,8 @@
 #include "logic/SnakeWorld.h"
 
 #include "SnakeSprite.h"
+#include "PauseLayer.h"
+#include "MainMenuScene.h"
 
 using std::vector;
 
@@ -60,6 +62,8 @@ bool SnakeWorldScene::init()
                  } else {
 
                      unschedule("update_snake");
+                     Scene* toPlay = MainMenuScene::createScene();
+                     Director::getInstance()->replaceScene(toPlay);
                  }
               }, 0.5, "update_snake");
 
@@ -87,7 +91,7 @@ void SnakeWorldScene::addKeyListener() {
 
     EventListenerKeyboard *eventListener = EventListenerKeyboard::create();
 
-    eventListener->onKeyReleased = [snake](EventKeyboard::KeyCode keyCode, Event* event) {
+    eventListener->onKeyReleased = [snake, this](EventKeyboard::KeyCode keyCode, Event* event) {
 
         if(keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
 
@@ -101,8 +105,40 @@ void SnakeWorldScene::addKeyListener() {
         } else if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
 
             snake->changeDirection(Snake::RIGHT);
+        } else if (keyCode == EventKeyboard::KeyCode::KEY_P) {
+
+            if (Director::getInstance()->isPaused()) {
+
+                handlePauseEnd();
+            } else {
+
+                handlePauseStart();
+            }
         }
     };
 
     this->_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
+}
+
+SnakeWorldScene::~SnakeWorldScene() {
+
+    delete _snakeWorld;
+}
+
+void SnakeWorldScene::handlePauseStart() {
+
+    Director::getInstance()->pause();
+    PauseLayer* pauseLayer = PauseLayer::create();
+    pauseLayer->setButtonCallback([this](Ref* ref) { handlePauseEnd(); });
+    LayerColor* layer = LayerColor::create(Color4B(255, 255, 255, 255));
+    layer->setOpacity(120);
+    getScene()->addChild(layer, 0, "color");
+    getScene()->addChild(pauseLayer, 0, "pauseLayer");
+}
+
+void SnakeWorldScene::handlePauseEnd() {
+
+    getScene()->removeChildByName("pauseLayer", true);
+    getScene()->removeChildByName("color", true);
+    Director::getInstance()->resume();
 }

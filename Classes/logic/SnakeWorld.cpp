@@ -1,5 +1,6 @@
 #include "SnakeWorld.h"
 
+#define COCOS2D_DEBUG 1
 USING_NS_CC;
 
 SnakeWorld::SnakeWorld(const Size& sceneSize)
@@ -13,6 +14,41 @@ SnakeWorld::SnakeWorld(const Size& sceneSize)
   randomApple();
 }
 
+SnakeWorld::SnakeWorld(const SnakeWorld& other)
+: _sceneSize(other._sceneSize),
+  _tileWidth(other._tileWidth),
+  _tileHeight(other._tileHeight),
+  _snake(new Snake(*(other._snake))),
+  _gameOver(other._gameOver),
+  _apple(other._apple) {
+
+}
+
+SnakeWorld::SnakeWorld(SnakeWorld&& other)
+: _sceneSize(other._sceneSize),
+  _tileWidth(other._tileWidth),
+  _tileHeight(other._tileHeight),
+  _snake(new Snake(*(other._snake))),
+  _gameOver(other._gameOver),
+  _apple(other._apple) {
+
+}
+
+SnakeWorld& SnakeWorld::operator=(const SnakeWorld& other) {
+
+    if (this != &other) {
+
+        _sceneSize = other._sceneSize;
+        _tileWidth = other._tileWidth;
+        _tileHeight = other._tileHeight;
+        _snake = new Snake(*(other._snake));
+        _gameOver = other._gameOver;
+        _apple = other._apple;
+    }
+
+    return *this;
+}
+
 SnakeWorld::~SnakeWorld() {
 
     delete _snake;
@@ -20,7 +56,7 @@ SnakeWorld::~SnakeWorld() {
 
 void SnakeWorld::update() {
 
-    if (!_gameOver && !checkCollision()) {
+    if (!_gameOver && checkCollision()) {
 
         if (_snake->canEat(_apple)) {
 
@@ -54,10 +90,9 @@ bool SnakeWorld::checkCollision() {
     Vec2 snakePos = _snake->getSnake()[_snake->getSnake().size() - 1] +
                     _snake->getSpeed();
 
-    return !(snakePos.x > -_tileWidth && snakePos.y > -_tileHeight &&
-               snakePos.x < _sceneSize.width &&
-                   snakePos.y < _sceneSize.height) &&
-                       !_snake->collidesWithItself();
+    return snakePos.x > -_tileWidth && snakePos.y > -_tileHeight &&
+            snakePos.x < _sceneSize.width && snakePos.y < _sceneSize.height &&
+             !_snake->collidesWithItself();
 }
 
 void SnakeWorld::randomApple() {

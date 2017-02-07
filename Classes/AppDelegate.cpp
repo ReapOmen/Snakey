@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "SnakeWorldScene.h"
+#include "MainMenuScene.h"
 
 USING_NS_CC;
 
@@ -74,7 +74,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = SnakeWorldScene::createScene();
+    auto scene = MainMenuScene::createScene();
 
     // run
     director->runWithScene(scene);

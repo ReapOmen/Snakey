@@ -4,7 +4,8 @@ USING_NS_CC;
 
 Snake::Snake(const Size& sceneSize, float segmentWidth, float segmentHeight)
 : _snakeStructure(),
-  _segmentWidth(segmentWidth), _segmentHeight(segmentHeight),
+  _segmentWidth(segmentWidth),
+  _segmentHeight(segmentHeight),
   _speed(-_segmentWidth, 0.0f),
   _isMovingOnX(true),
   _shouldChangeDirection(true) {
@@ -23,6 +24,56 @@ Snake::Snake(const Size& sceneSize, float segmentWidth, float segmentHeight)
     _snakeStructure.push_back(Vec2(segmentX, segmentY));
     _snakeStructure.push_back(Vec2(segmentX - _segmentWidth, segmentY));
 
+}
+
+Snake::Snake(const Snake& other)
+: _snakeStructure(other._snakeStructure),
+  _segmentWidth(other._segmentWidth),
+  _segmentHeight(other._segmentHeight),
+  _speed(other._speed),
+  _isMovingOnX(other._isMovingOnX),
+  _shouldChangeDirection(other._shouldChangeDirection) {
+
+}
+
+Snake::Snake(Snake&& other)
+: _snakeStructure(std::move(other._snakeStructure)),
+  _segmentWidth(std::move(other._segmentWidth)),
+  _segmentHeight(std::move(other._segmentHeight)),
+  _speed(other._speed),
+  _isMovingOnX(std::move(other._isMovingOnX)),
+  _shouldChangeDirection(std::move(other._shouldChangeDirection)) {
+
+}
+
+Snake& Snake::operator=(const Snake& other) {
+
+    if (this != &other) {
+
+        _snakeStructure = other._snakeStructure;
+        _segmentWidth =  other._segmentWidth;
+        _segmentHeight = other._segmentHeight;
+        _speed = other._speed;
+        _isMovingOnX = other._isMovingOnX;
+        _shouldChangeDirection = other._shouldChangeDirection;
+    }
+
+    return *this;
+}
+
+Snake& Snake::operator=(Snake&& other) {
+
+    if (this != &other) {
+
+        _snakeStructure = std::move(other._snakeStructure);
+        _segmentWidth = std::move(other._segmentWidth);
+        _segmentHeight = std::move(other._segmentHeight);
+        _speed = other._speed;
+        _isMovingOnX = std::move(other._isMovingOnX);
+        _shouldChangeDirection = std::move(other._shouldChangeDirection);
+    }
+
+    return *this;
 }
 
 Snake::~Snake() {
@@ -88,11 +139,11 @@ bool Snake::collidesWithItself() const {
 
         if(newHead == segment) {
 
-            return false;
+            return true;
         }
     }
 
-    return true;
+    return false;
 }
 
 float Snake::getSegmentWidth() const {

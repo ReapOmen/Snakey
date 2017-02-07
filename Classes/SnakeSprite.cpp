@@ -20,7 +20,6 @@ SnakeSprite::SnakeSprite(Snake* snake)
 
 SnakeSprite::~SnakeSprite() {
 
-    delete _snake;
 }
 
 void SnakeSprite::update() {

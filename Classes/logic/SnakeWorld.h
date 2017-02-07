@@ -18,6 +18,14 @@ public:
      */
     SnakeWorld(const cocos2d::Size& sceneSize);
 
+    SnakeWorld(const SnakeWorld& other);
+
+    SnakeWorld(SnakeWorld&& other);
+
+    SnakeWorld& operator=(const SnakeWorld& other);
+
+    SnakeWorld& operator=(SnakeWorld&& other);
+
     virtual ~SnakeWorld();
 
     /**
