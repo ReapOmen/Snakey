@@ -129,6 +129,7 @@ set(GAME_SRC
   Classes/logic/SnakeWorld.cpp
   Classes/SnakeSprite.cpp
   Classes/MainMenuScene.cpp
+  Classes/PauseLayer.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -139,6 +140,7 @@ set(GAME_HEADERS
   Classes/logic/SnakeWorld.h
   Classes/SnakeSprite.h
   Classes/MainMenuScene.h
+  Classes/PauseLayer.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 
